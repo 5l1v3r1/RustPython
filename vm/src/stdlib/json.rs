@@ -42,7 +42,7 @@ pub fn json_loads(obj: PyObjectRef, vm: &VirtualMachine) -> PyResult {
         let module = vm
             .get_attribute(vm.sys_module.clone(), "modules")
             .unwrap()
-            .get_item("json", vm)
+            .get_item("_serde_json", vm)
             .unwrap();
         let json_decode_error = vm.get_attribute(module, "JSONDecodeError").unwrap();
         let json_decode_error = json_decode_error.downcast().unwrap();
@@ -70,7 +70,7 @@ pub fn make_module(vm: &VirtualMachine) -> PyObjectRef {
         &ctx.exceptions.exception_type,
     );
 
-    py_module!(vm, "json", {
+    py_module!(vm, "_serde_json", {
         "dumps" => ctx.new_function(json_dumps),
         "dump" => ctx.new_function(json_dump),
         "loads" => ctx.new_function(json_loads),
